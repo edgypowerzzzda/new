@@ -3,8 +3,6 @@
 import type { LocalProduct } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Eye } from "lucide-react"
-import Image from "next/image"
-import { getProductImageUrl } from "@/lib/image-utils"
 
 interface ModernProductCardProps {
   product: LocalProduct
@@ -13,17 +11,13 @@ interface ModernProductCardProps {
 }
 
 const ModernProductCard = ({ product, index, onQuickView }: ModernProductCardProps) => {
-  const imageUrl = getProductImageUrl(product)
-
   return (
     <div key={index} className="group relative">
       <div className="aspect-w-4 aspect-h-5 w-full overflow-hidden rounded-md bg-gray-200">
-        <Image
-          src={imageUrl || "/placeholder.svg"}
+        <img
+          src={product.images[0].url || "/placeholder.svg"}
           alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          className="object-cover object-center group-hover:opacity-75"
         />
       </div>
       <div className="mt-4 flex justify-between">

@@ -10,7 +10,6 @@ import Image from "next/image"
 import Link from "next/link"
 import type { LocalProduct } from "@/lib/local-storage"
 import { useToast } from "@/hooks/use-toast"
-import { getProductImages } from "@/lib/image-utils"
 
 interface ProductQuickViewProps {
   product: LocalProduct
@@ -53,8 +52,7 @@ export default function ProductQuickView({ product, onClose }: ProductQuickViewP
     }
   }
 
-  // Исправляем логику изображений
-  const images = getProductImages(product)
+  const images = product.images || [product.image_url]
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -71,7 +69,7 @@ export default function ProductQuickView({ product, onClose }: ProductQuickViewP
           <div className="space-y-4">
             <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100">
               <Image
-                src={images[selectedImage] || "/placeholder.svg"}
+                src={images[selectedImage] || "/placeholder.svg?height=400&width=400"}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -92,7 +90,7 @@ export default function ProductQuickView({ product, onClose }: ProductQuickViewP
                     }`}
                   >
                     <Image
-                      src={image || "/placeholder.svg"}
+                      src={image || "/placeholder.svg?height=64&width=64"}
                       alt={`${product.name} ${index + 1}`}
                       width={64}
                       height={64}
